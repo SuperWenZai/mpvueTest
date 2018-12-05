@@ -94,14 +94,22 @@ export default {
       title: "首页"
     });
 
-    wx.getLocation({
+    wx.chooseLocation({
       success (res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        _.server.get({ name: 'latitude', data: { longitude: longitude, latitude: latitude } }).then(result => {
-          console.log('获取位置')
-          console.log(result);
-        })
+
+        const latitude = res.latitude;
+        const longitude = res.longitude;
+        const cityName = res.address.slice(res.address.indexOf('省') + 1, res.address.indexOf('市') + 1);
+
+        _.server.cache.set({ cityName: cityName }).then(result => {
+
+          _.server.get({ name: 'getNearStore', data: { cityName: cityName, longitude: longitude, latitude: latitude, needContainsTestStore: false, selfGetTime: '' } }).then(result => {
+            console.log('获取位置');
+            console.log(result);
+          })
+
+        });
+
       }
     })
 

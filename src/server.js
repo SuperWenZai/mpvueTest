@@ -1,5 +1,5 @@
 const lib = {
-  "latitude": [3, 95, {
+  "getNearStore": [3, 95, {
     longitude: "",
     latitude: ""
   }],
